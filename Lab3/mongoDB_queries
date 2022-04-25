@@ -1,0 +1,15 @@
+Mongo
+Use student
+db.createCollection("students");
+> db.student.insert({_id:1,Name:"Aishwarya",USN:"1BM19CS008",Sem:6,Dept:'CSE',CGPA:9,hobbies:["Skate","Swim"]});
+> db.student.insert({_id:2,Name:"Amit",USN:"1BM19CS015",Sem:6,Dept:'CSE',CGPA:9.1,hobbies:["Code","Swim"]});
+
+> db.student.insert({_id:3,Name:"Anisha",USN:"1BM19CS018",Sem:6,Dept:'CSE',CGPA:10,hobbies:["Dance","Sing"]});
+
+> db.student.insert({_id:4,Name:"Vidhya",USN:"1BM19CS200",Sem:4,Dept:'CSE',CGPA:9.8,hobbies:["Dance","Sing"]});
+
+> db.student.insert({_id:5,Name:"Rashi",USN:"1BM19CS180",Sem:4,Dept:'ISE',CGPA:9,hobbies:["Dance","PlayViolin"]});
+
+> db.student.update({_id:4},{$set:{USN:"1BM20CS200"});
+db.student.aggregate({$match:{Dept:"CSE"}},{$group:{_id:'$Sem',Avg_CGPA:{$avg:"$CGPA"}}},{$match:{Avg_CGPA:{$gt:7.5}}});
+mongoexport --host localhost --db student --collection student --type=csv --out Output1.txt --fields "USN","Name"
