@@ -1,0 +1,8 @@
+create keyspace library with replication={'class':'SimpleStrategy','replication_factor':'1'};
+
+create table library_info(std_id int, std_name text,book_name text, counter_val counter,book_id int, date_of_issue date,primary key((std_id),salary));
+
+insert into employee_info(emp_id, emp_name,designation, date_of_joining,salary, dept_name) values(111,'Aishwarya','Employee','2022-05-05',50000,'Marketing');
+cqlsh:employee> insert into employee_info(emp_id, emp_name,designation, date_of_joining,salary, dept_name) values(121,'Anisha','Manager','2021-08-07',100000,'Marketing');
+
+Update library_info set counter_vall=counter_val+1
