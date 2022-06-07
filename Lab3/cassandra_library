@@ -1,8 +1,70 @@
-create keyspace library with replication={'class':'SimpleStrategy','replication_factor':'1'};
+> use library;
+> create table library_info(
+           ... stud_id text,
+           ... stud_name text,
+           ... book_name text,
+           ... book_id text,
+           ... date_of_issue text,
+           ... counter_value counter,
+           ... primary key((stud_id,book_id),stud_name,book_name,date_of_issue)
+           ... );
+           
+> desc library_info;
+CREATE TABLE library.library_info (
+    stud_id text,
+    book_id text,
+    stud_name text,
+    book_name text,
+    date_of_issue text,
+    counter_value counter,
+    PRIMARY KEY ((stud_id, book_id), stud_name, book_name, date_of_issue)
+) WITH CLUSTERING ORDER BY (stud_name ASC, book_name ASC, date_of_issue ASC)
 
-create table library_info(std_id int, std_name text,book_name text, counter_val counter,book_id int, date_of_issue date,primary key((std_id),salary));
+> update library_info set counter_value=counter_value+1 where stud_id='1bm19cs018' and stud_name='aishwarya' and book_name='Math' and  book_id='uu9990' and date_of_issue='09-08-2020';
+> select * from library_info;
 
-insert into employee_info(emp_id, emp_name,designation, date_of_joining,salary, dept_name) values(111,'Aishwarya','Employee','2022-05-05',50000,'Marketing');
-cqlsh:employee> insert into employee_info(emp_id, emp_name,designation, date_of_joining,salary, dept_name) values(121,'Anisha','Manager','2021-08-07',100000,'Marketing');
+ stud_id    | book_id | stud_name      | book_name       | date_of_issue | counter_value
+------------+---------+----------------+-----------------+---------------+---------------
+ 1bm19cs018 |  uu9990 |      aishwarya |            Math |    09-08-2020 |             1
 
-Update library_info set counter_vall=counter_val+1
+(1 rows)
+
+update library_info set counter_value=counter_value+1 where stud_id='1bm19cs008' and stud_name='aisha' and book_name='OOMD' and  book_id='u2f9990' and date_of_issue='09-08-2024'; 
+update library_info set counter_value=counter_value+1 where stud_id='1bm19cs012' and stud_name='akshay' and book_name='CNS' and  book_id='d8v339' and date_of_issue='19-03-2022';
+update library_info set counter_value=counter_value+1 where stud_id='1bm19cs022' and stud_name='anisha' and book_name='BDA' and  book_id='dvt543' and date_of_issue='17-04-2022'; 
+update library_info set counter_value=counter_value+1 where stud_id='1bm19cs022' and stud_name='anisha' and book_name='BDA' and  book_id='dvt543' and date_of_issue='17-04-2022'; 
+
+
+
+
+ select * from library_info;
+
+ stud_id    | book_id | stud_name | book_name                      | date_of_issue | counter_value
+------------+---------+-----------+--------------------------------+---------------+---------------
+ 1bm19cs008 | u2f9990 |     aisha |                           OOMD |    09-08-2024 |             1
+ 1bm19cs012 |  d8v339 |    akshay |                            CNS |    19-03-2022 |             1
+ 1bm19cs022 |  dvt543 |    anisha |                            BDA |    17-04-2022 |             2
+ 1bm19cs018 |  uu9990 | aishwarya |                           Math |    09-08-2020 |             1
+
+(4 rows)
+
+
+
+select * from library_info where counter_value=2 and book_name='BDA'  allow filtering;
+
+ stud_id    | book_id | stud_name | book_name | date_of_issue | counter_value
+------------+---------+-----------+-----------+---------------+---------------
+ 1bm19cs022 |  dvt543 |    anisha |       BDA |    17-04-2022 |             2
+
+
+
+
+--> (export the created column to csv)
+
+copy library_info(counter_value,stud_id,stud_name,book_name,book_id,data_of_issue) to 'c:\users\desktop\college\bda\lab3\file.csv' WITH HEADER = TRUE;
+
+
+--> (import csv file to cassandra from local storage)
+
+copy library_info_duplicate from 'c:\users\desktop\college\bda\lab3\file.csv' WITH HEADER = TRUE;
+
